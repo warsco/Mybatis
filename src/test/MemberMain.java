@@ -104,6 +104,7 @@ public class MemberMain {
 		
 	}
 	
+	//deptno가 10, 20, 30인 부서정보 출력
 	public void dept(SqlSessionFactory factory) {
 		
 		SqlSession session = factory.openSession();

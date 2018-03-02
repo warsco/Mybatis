@@ -31,4 +31,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 				#{item}
 			</foreach>
 	</select>
+	
+	<!-- 사원들의 이름, 부서번호, 부서이름을 출력 -->
+	<select id="select1" resultType="empDTO">
+		select e.ename, d.dname, d.deptno from emp e, dept d where e.deptno=d.deptno
+	</select>
+	
+	<!-- DALLAS에서 근무하는 사원의 이름, 직위, 부서번호, 부서이름을 출력  -->
 </mapper>
