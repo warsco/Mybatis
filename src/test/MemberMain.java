@@ -2,6 +2,7 @@ package test;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -9,9 +10,7 @@ import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
-import org.xml.sax.HandlerBase;
 
-import DTO.MemberDTO;
 import DTO.deptDTO;
 
 public class MemberMain {
@@ -22,8 +21,12 @@ public class MemberMain {
 		try {
 			InputStream is = Resources.getResourceAsStream(res);
 			SqlSessionFactory factory = new SqlSessionFactoryBuilder().build(is);
-			main.addDept(factory);
-			main.selectMember(factory);
+			//main.addDept(factory);
+			//main.deleteDept(factory);
+			//main.selectMember(factory);
+			//main.updateDept(factory);
+			main.dept(factory);
+			
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -46,9 +49,6 @@ public class MemberMain {
 		deptDTO dept = session.selectOne("member.getDept",map);
 		
 		System.out.println(dept);
-
-		
-			
 				
 		}finally {
 			session.close();
@@ -59,7 +59,7 @@ public class MemberMain {
 		
 		SqlSession session = factory.openSession();
 		try {
-			deptDTO dept = new deptDTO(60,"R&D");	
+			deptDTO dept = new deptDTO(50,"R&D");	
 			int i = session.insert("member.addDept",dept);
 			if(i>0) {
 				session.commit();
@@ -67,7 +67,61 @@ public class MemberMain {
 				
 			}
 		}finally {
+			session.close();
+		}
+		
+	}
+	
+	public void deleteDept(SqlSessionFactory factory) {
+		
+		SqlSession session = factory.openSession();
+		try {
+			int i = session.delete("member.deleteDept",60);
+			if(i>0) {
+				session.commit();
+				System.out.println("부서 정보가 삭제됨");
+			}
+		}finally {
 			
+		}
+		
+	}
+	
+	public void updateDept(SqlSessionFactory factory) {
+		
+		SqlSession session = factory.openSession();
+		try {
+			int dept = -1;
+			HashMap map = new HashMap();
+			map.put("dname", "기획팀");
+			map.put("deptno", 50);
+			dept = session.update("member.updateDept",map);
+			session.commit();
+			System.out.println(dept);
+		}finally {
+			session.close();
+		}
+		
+	}
+	
+	public void dept(SqlSessionFactory factory) {
+		
+		SqlSession session = factory.openSession();
+		try {
+			
+			List<Integer> test = new ArrayList<Integer>();
+			test.add(10);
+			test.add(20);
+			test.add(30);
+			List<deptDTO> deptList = session.selectList("member.deptnofor",test);
+			
+			
+			for(deptDTO dto : deptList) {
+				System.out.println(dto);
+			}
+			
+		}finally {
+			session.close();
 		}
 		
 	}

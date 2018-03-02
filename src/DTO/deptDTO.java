@@ -8,9 +8,12 @@ public class deptDTO {
 	
 	public deptDTO() {}
 	public deptDTO(int deptno, String dname) {
-		
 		this.deptno= deptno;
 		this.dname = dname;
+	}
+	
+	public deptDTO(int deptno) {
+		this.deptno= deptno;
 		
 	}
 	

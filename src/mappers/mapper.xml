@@ -15,4 +15,20 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<insert id="addDept" parameterType="deptDTO">
 		insert into dept2 values (#{deptno},#{dname})	
 	</insert>
+	
+	<delete id="deleteDept" parameterType="int">
+		delete from dept2 where deptno=#{no}
+	</delete>
+	
+	<update id="updateDept" parameterType="map">
+		update dept2 set dname = #{dname} where deptno =#{deptno}
+	</update>
+	
+	<!-- deptno가 10, 20, 30인 부서정보 출력 -->
+	<select id="deptnofor" resultType="deptDTO">
+		select * from dept2 where deptno in
+			<foreach item="item" collection="list" open="(" separator="," close=")">
+				#{item}
+			</foreach>
+	</select>
 </mapper>
